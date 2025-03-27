@@ -26,7 +26,7 @@ public class WarningRule extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String type; // GPA、单科成绩、连续不及格次数、出勤率等
 
-    @Column(nullable = false)
+    @Column(name = "rule_condition", nullable = false)
     private String condition; // 例如 "score < 60"、"absences > 3" 等
 
     @Column(nullable = false)

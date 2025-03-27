@@ -17,6 +17,8 @@ public class StudentResponse {
     private String address;
     private Long classGroupId;
     private String className;
+    private String college;
+    private String major;
     private Boolean hasWarning;
     private String emergencyContact;
     private String emergencyPhone;

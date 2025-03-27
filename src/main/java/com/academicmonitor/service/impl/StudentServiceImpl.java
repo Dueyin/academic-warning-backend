@@ -11,6 +11,8 @@ import com.academicmonitor.repository.StudentRepository;
 import com.academicmonitor.repository.UserRepository;
 import com.academicmonitor.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,6 +115,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Page<StudentResponse> getStudentsWithFilters(String studentNumber, String name,
+                                                     String college, String major,
+                                                     Pageable pageable) {
+        // 使用自定义查询方法获取分页结果
+        Page<Student> studentsPage = studentRepository.findByFilters(
+                studentNumber, name, college, major, pageable);
+        
+        // 将每个Student实体转换为StudentResponse
+        return studentsPage.map(this::mapToStudentResponse);
+    }
+
+    @Override
     @Transactional
     public StudentResponse updateStudent(Long id, StudentRequest studentRequest) {
         Student student = studentRepository.findById(id)
@@ -175,6 +189,13 @@ public class StudentServiceImpl implements StudentService {
         if (student.getClassGroup() != null) {
             response.setClassGroupId(student.getClassGroup().getId());
             response.setClassName(student.getClassGroup().getName());
+            response.setCollege(student.getClassGroup().getCollege());
+            response.setMajor(student.getClassGroup().getMajor());
+        } else {
+            response.setClassGroupId(null);
+            response.setClassName("未分配班级");
+            response.setCollege("");
+            response.setMajor("");
         }
         
         return response;

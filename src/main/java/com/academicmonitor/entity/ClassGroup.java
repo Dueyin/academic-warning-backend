@@ -25,6 +25,12 @@ public class ClassGroup extends BaseEntity {
 
     @Column(length = 100)
     private String description;
+    
+    @Column(length = 100)
+    private String college;
+    
+    @Column(length = 100)
+    private String major;
 
     @ManyToOne
     @JoinColumn(name = "head_teacher_id")
